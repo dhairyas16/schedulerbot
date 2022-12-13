@@ -18,6 +18,14 @@ client = slack.WebClient(token=os.environ['SLACK_TOKEN'])
 BOT_ID = client.api_call("auth.test")['user_id']
 
 
+def job_function(*args):
+    client.chat_postMessage(channel='test', text=args[0])
+
+
+scheduler = BackgroundScheduler()
+scheduler.start()
+
+
 def list_scheduled_messages(channel):
     response = client.chat_scheduledMessages_list(channel=channel)
     messages = response.data.get('scheduled_messages')
