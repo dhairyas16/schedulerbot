@@ -169,6 +169,128 @@ def schedule_message(channel_id, message, time_stamp, username):
     print('Message scheduled -->', response.data)
 
 
+@app.route('/schedule-recurring', methods=['POST'])
+def schedule_recurring():
+    data = request.form
+    user_id = data.get('user_id')
+
+    print('/schedule-recurring -->', data)
+
+    global channel
+    channel = data.get('channel_id')
+    print('channel id -->', channel)
+
+    result = client.views_open(
+        trigger_id=data.get("trigger_id"),
+        view={
+            "type": "modal",
+            "title": {
+                "type": "plain_text",
+                "text": "Schedule Recurring Msg",
+                "emoji": True
+            },
+            "submit": {
+                "type": "plain_text",
+                "text": "Submit",
+                "emoji": True
+            },
+            "close": {
+                "type": "plain_text",
+                "text": "Cancel",
+                "emoji": True
+            },
+            "blocks": [
+                {
+                    "type": "input",
+                    "element": {
+                        "type": "plain_text_input",
+                        "action_id": "plain_text_input-action"
+                    },
+                    "label": {
+                        "type": "plain_text",
+                        "text": "Message",
+                        "emoji": True
+                    }
+                },
+                {
+                    "type": "input",
+                    "element": {
+                        "type": "timepicker",
+                        "initial_time": "13:37",
+                        "placeholder": {
+                            "type": "plain_text",
+                            "text": "Select time",
+                            "emoji": True
+                        },
+                        "action_id": "timepicker-action"
+                    },
+                    "label": {
+                        "type": "plain_text",
+                        "text": "Select time",
+                        "emoji": True
+                    }
+                },
+                {
+                    "type": "input",
+                    "element": {
+                        "type": "static_select",
+                        "placeholder": {
+                            "type": "plain_text",
+                            "text": "Select an item",
+                            "emoji": True
+                        },
+                        "options": [
+                            {
+                                "text": {
+                                    "type": "plain_text",
+                                    "text": "Every Day",
+                                    "emoji": True
+                                },
+                                "value": "every-day"
+                            },
+                            {
+                                "text": {
+                                    "type": "plain_text",
+                                    "text": "Every Week",
+                                    "emoji": True
+                                },
+                                "value": "every-week"
+                            },
+                            {
+                                "text": {
+                                    "type": "plain_text",
+                                    "text": "Every Month",
+                                    "emoji": True
+                                },
+                                "value": "every-month"
+                            }
+                        ],
+                        "action_id": "static_select-action"
+                    },
+                    "label": {
+                        "type": "plain_text",
+                        "text": "Select frequency",
+                        "emoji": True
+                    }
+                }
+            ]
+        },
+    )
+    print('result -->', result)
+    return Response(), 200
+
+
+def get_cron_expression(time_str, frequency):
+    hr, mnt = tuple(time_str.split(':'))
+    if frequency == 'every-day':
+        return f'{mnt} {hr} * * *'
+    elif frequency == 'every-week':
+        return f'{mnt} {hr} * * 1'
+    elif frequency == 'every-month':
+        return f'{mnt} {hr} 1 * *'
+    # return '* * * * *'
+
+
 @app.route('/handle-submit', methods=['POST'])
 def handle_submit():
     data = request.form
@@ -188,6 +310,22 @@ def handle_submit():
             message = ls[0]['plain_text_input-action']['value']
             time_stamp = ls[1]['datetimepicker-action']['selected_date_time']
             schedule_message(str(channel), message, time_stamp, username)
+            return Response(), 200
+        if title == 'Schedule Recurring Msg':
+            data = form_json['view']['state']['values']
+            list_data = list(data.values())
+            message = list_data[0]['plain_text_input-action']['value']
+            time_str = list_data[1]['timepicker-action']['selected_time']
+            frequency = list_data[2]['static_select-action']['selected_option']['value']
+            print('time, frequency -->', time_str, frequency)
+            cron_expression = get_cron_expression(time_str, frequency)
+            print('cron -->', cron_expression)
+            job_resp = scheduler.add_job(
+                job_function,
+                CronTrigger.from_crontab(cron_expression),
+                args=[message]
+            )
+            print('Job scheduled -->', job_resp)
             return Response(), 200
 
     if submission_type == 'block_actions':
