@@ -27,12 +27,16 @@ def get_week_day(start_date_time_timestamp_str):
     dt_obj = datetime.fromtimestamp(int(start_date_time_timestamp_str), pytz.timezone("Asia/Kolkata"))
     return dt_obj.weekday()
 
-# def get_cron_expression(time_str, frequency):
-#     hr, mnt = tuple(time_str.split(':'))
-#     # if frequency == 'every-day':
-#     #     return f'{mnt} {hr} * * *'
-#     # elif frequency == 'every-week':
-#     #     return f'{mnt} {hr} * * 1'
-#     # elif frequency == 'every-month':
-#     #     return f'{mnt} {hr} 1 * *'
-#     return '* * * * *'
+
+def get_mapping():
+    return {
+        'user_id': 0,
+        'job_id': 1,
+        'channels': 2,
+        'message': 3,
+        'start_date': 4,
+        'hour': 5,
+        'minute': 6,
+        'frequency': 7,
+        'no_of_times': 8
+    }
