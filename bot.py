@@ -410,7 +410,7 @@ def schedule_recurring_list():
                 "type": "section",
                 "text": {
                     "type": "mrkdwn",
-                    "text": "Schedule a new recurring message using the `/schedule-recurring` command."
+                    "text": "Use `/schedule-recurring` to schedule a new recurring message."
                 }
             },
         ]
@@ -702,14 +702,17 @@ def handle_submit():
         action_id = form_json['actions'][0]['action_id']
         req_type, job_id = action_id.rsplit('_', 1)
         if req_type == 'post_now_request':
-            record = db.get_job(job_id)
-            channels = record[2]
-            message = record[3]
-            for channel in channels:
-                client.chat_postMessage(channel=channel, text=message)
-            scheduler.remove_job(job_id)
-            db.delete_job(job_id)
-            return Response(), 200
+            try:
+                record = db.get_job(job_id)
+                channels = record[2]
+                message = record[3]
+                for channel in channels:
+                    client.chat_postMessage(channel=channel, text=message)
+                scheduler.remove_job(job_id)
+                db.delete_job(job_id)
+                return Response(), 200
+            except Exception as e:
+                print('Error while posting job -->', e)
         if req_type == 'delete_request':
             scheduler.remove_job(job_id)
             db.delete_job(job_id)
