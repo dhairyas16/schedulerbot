@@ -2,16 +2,16 @@ from datetime import datetime, timedelta
 import pytz
 
 
-def get_start_date_and_time(start_date_time_timestamp_str):
-    dt_obj = datetime.fromtimestamp(int(start_date_time_timestamp_str), pytz.timezone("Asia/Kolkata"))
+def get_start_date_and_time(start_date_time_timestamp_str, user_timezone):
+    dt_obj = datetime.fromtimestamp(int(start_date_time_timestamp_str), pytz.timezone(user_timezone))
     start_date = dt_obj.date()
     hour = dt_obj.time().hour
     minute = dt_obj.time().minute
     return start_date, hour, minute
 
 
-def get_end_date(start_date_time_timestamp_str, frequency, no_of_times):
-    dt_obj = datetime.fromtimestamp(int(start_date_time_timestamp_str), pytz.timezone("Asia/Kolkata"))
+def get_end_date(start_date_time_timestamp_str, frequency, no_of_times, user_timezone):
+    dt_obj = datetime.fromtimestamp(int(start_date_time_timestamp_str), pytz.timezone(user_timezone))
     print('dt_obj -->', dt_obj)
     ed_obj = None
     if frequency == 'every-day':
@@ -23,8 +23,8 @@ def get_end_date(start_date_time_timestamp_str, frequency, no_of_times):
     return ed_obj
 
 
-def get_week_day(start_date_time_timestamp_str):
-    dt_obj = datetime.fromtimestamp(int(start_date_time_timestamp_str), pytz.timezone("Asia/Kolkata"))
+def get_week_day(start_date_time_timestamp_str, user_timezone):
+    dt_obj = datetime.fromtimestamp(int(start_date_time_timestamp_str), pytz.timezone(user_timezone))
     return dt_obj.weekday()
 
 

@@ -48,5 +48,16 @@ class Postgres:
         except (Exception, psycopg2.Error) as error:
             print("Error while deleting data from PostgreSQL:", error)
 
+    def get_user_jobs(self, user_id, scheduled_job_ids):
+        try:
+            if len(scheduled_job_ids) == 0:
+                return ()
+            query = """SELECT * FROM jobs where user_id=%s AND job_id IN %s"""
+            self.cursor.execute(query, (user_id, scheduled_job_ids))
+            records = self.cursor.fetchall()
+            return records
+        except (Exception, psycopg2.Error) as error:
+            print("Error while fetching user jobs from PostgreSQL:", error)
+
 
 db = Postgres()
