@@ -183,11 +183,14 @@ class BlockKit:
         ]
 
         for job in jobs:
-            # print('job id -->', scheduler.get_job(job[mapping['job_id']]))
             if job[mapping['user_id']] == user_id:
                 channels = ""
                 for chnl in job[mapping['channels']]:
                     channels += f"#{chnl} "
+
+                remaining_count = util.get_remaining_count(scheduler, job[mapping['job_id']],
+                                                           job[mapping['start_date']], job[mapping['end_date']],
+                                                           job[mapping['frequency']], job[mapping['no_of_times']])
                 blocks.append(
                     {
                         "type": "section",
@@ -224,6 +227,10 @@ class BlockKit:
                             {
                                 "type": "mrkdwn",
                                 "text": f"*Channels:*\n{channels}"
+                            },
+                            {
+                                "type": "mrkdwn",
+                                "text": f"*Remaining no of times:*\n{remaining_count}"
                             }
                         ]
                     }

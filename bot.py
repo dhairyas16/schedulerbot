@@ -99,11 +99,13 @@ def handle_submit():
         start_date_obj = util.get_start_date_and_time(
             start_date_time_timestamp_str, user_timezone
         ).astimezone(pytz.timezone(user_timezone))
-        start_date = start_date_obj.date()
+        # start_date = start_date_obj.date()
         hour = start_date_obj.hour
         minute = start_date_obj.minute
+        end_date = util.get_end_date(start_date_time_timestamp_str, frequency, no_of_times, user_timezone)
         db.insert(
-            (user_id, resp.id, selected_channels, message, start_date, hour, minute, frequency, no_of_times)
+            (user_id, resp.id, selected_channels, message, str(start_date_obj), hour, minute, frequency, no_of_times,
+             str(end_date))
         )
         return Response(), 200
     if submission_type == 'block_actions':
@@ -128,4 +130,5 @@ def handle_submit():
 
 
 if __name__ == '__main__':
+    # db.delete_all_records()
     app.run(debug=True, port=6000, use_reloader=False)

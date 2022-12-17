@@ -40,6 +40,22 @@ class Util:
             channels += f"#{chnl}"
         return channels
 
+    def get_remaining_count(self, scheduler, job_id, start_date_str, end_date_str, frequency, total_count):
+        start_date_obj = datetime.strptime(start_date_str, '%Y-%m-%d %H:%M:%S%z')
+        end_date_obj = datetime.strptime(end_date_str, '%Y-%m-%d %H:%M:%S%z')
+        next_run_time_obj = scheduler.get_job(str(job_id)).next_run_time
+
+        if next_run_time_obj == start_date_obj:
+            return total_count
+
+        delta_days = (end_date_obj - next_run_time_obj).days
+        if frequency == 'every-day':
+            return delta_days + 1
+        elif frequency == 'every-week':
+            return int((delta_days / 7)) + 1
+        elif frequency == 'every-month':
+            return int((delta_days / 30)) + 1
+
     def get_mapping(self):
         return {
             'user_id': 0,
@@ -50,7 +66,8 @@ class Util:
             'hour': 5,
             'minute': 6,
             'frequency': 7,
-            'no_of_times': 8
+            'no_of_times': 8,
+            'end_date': 9
         }
 
 

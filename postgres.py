@@ -20,7 +20,7 @@ class Postgres:
     def insert(self, data):
         try:
             postgres_insert_query = """ INSERT INTO jobs(user_id, job_id, channels, message, start_date, 
-                hour, minute, frequency, no_of_times) VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s)"""
+                hour, minute, frequency, no_of_times, end_date) VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)"""
             self.cursor.execute(postgres_insert_query, data)
             self.connection.commit()
         except (Exception, psycopg2.Error) as error:
