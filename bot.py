@@ -8,6 +8,7 @@ from apscheduler.schedulers.background import BackgroundScheduler
 
 from utils import get_start_date_and_time, get_end_date, get_week_day, get_mapping
 from postgres import db
+from apscheduler.jobstores.sqlalchemy import SQLAlchemyJobStore
 
 env_path = Path('.') / '.env'
 load_dotenv(dotenv_path=env_path)
@@ -18,6 +19,7 @@ client = slack.WebClient(token=os.environ['SLACK_TOKEN'])
 BOT_ID = client.api_call("auth.test")['user_id']
 
 scheduler = BackgroundScheduler()
+scheduler.add_jobstore('sqlalchemy', url='sqlite:///jobstorage.sqlite')
 scheduler.start()
 
 
