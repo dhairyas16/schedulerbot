@@ -1,3 +1,5 @@
+import pytz
+
 from utils.utils import util
 
 
@@ -143,7 +145,7 @@ class BlockKit:
             ]
         }
 
-    def schedule_list_blocks(self, user_id, scheduler, jobs):
+    def schedule_list_blocks(self, user_id, scheduler, jobs, user_timezone):
         if len(jobs) == 0:
             return [
                 {
@@ -217,7 +219,7 @@ class BlockKit:
                             },
                             {
                                 "type": "mrkdwn",
-                                "text": f"*Next Schedule Time:*\n{scheduler.get_job(str(job[mapping['job_id']])).next_run_time}"
+                                "text": f"*Next Schedule Time:*\n{scheduler.get_job(str(job[mapping['job_id']])).next_run_time.astimezone(pytz.timezone(user_timezone))}"
                             },
                             {
                                 "type": "mrkdwn",

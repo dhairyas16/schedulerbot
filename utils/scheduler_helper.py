@@ -14,7 +14,9 @@ class SchedulerHelper:
 
     def schedule_recurring_msg(self, message, start_date_time_timestamp_str, frequency, no_of_times, selected_channels,
                                user_timezone):
-        start_date, hour, minute = util.get_start_date_and_time(start_date_time_timestamp_str, user_timezone)
+        start_date = util.get_start_date_and_time(start_date_time_timestamp_str, user_timezone)
+        hour = start_date.hour
+        minute = start_date.minute
         end_date = util.get_end_date(start_date_time_timestamp_str, frequency, no_of_times, user_timezone)
         week_day = util.get_week_day(start_date_time_timestamp_str, user_timezone)
         print('start end hour min week-day -->', start_date, end_date, hour, minute, week_day)

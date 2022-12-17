@@ -4,14 +4,14 @@ import pytz
 
 class Util:
     def get_start_date_and_time(self, start_date_time_timestamp_str, user_timezone):
-        dt_obj = datetime.fromtimestamp(int(start_date_time_timestamp_str), pytz.timezone(user_timezone))
-        start_date = dt_obj.date()
-        hour = dt_obj.time().hour
-        minute = dt_obj.time().minute
-        return start_date, hour, minute
+        dt_obj = datetime.fromtimestamp(int(start_date_time_timestamp_str), pytz.timezone('utc'))
+        # start_date = dt_obj.date()
+        # hour = dt_obj.time().hour
+        # minute = dt_obj.time().minute
+        return dt_obj
 
     def get_end_date(self, start_date_time_timestamp_str, frequency, no_of_times, user_timezone):
-        dt_obj = datetime.fromtimestamp(int(start_date_time_timestamp_str), pytz.timezone(user_timezone))
+        dt_obj = datetime.fromtimestamp(int(start_date_time_timestamp_str), pytz.timezone('utc'))
         print('dt_obj -->', dt_obj)
         ed_obj = None
         if frequency == 'every-day':
@@ -23,7 +23,7 @@ class Util:
         return ed_obj
 
     def get_week_day(self, start_date_time_timestamp_str, user_timezone):
-        dt_obj = datetime.fromtimestamp(int(start_date_time_timestamp_str), pytz.timezone(user_timezone))
+        dt_obj = datetime.fromtimestamp(int(start_date_time_timestamp_str), pytz.timezone('utc'))
         return dt_obj.weekday()
 
     def get_few_words(self, s):
@@ -33,6 +33,12 @@ class Util:
         if len(ls_words) > 9:
             msg += '...'
         return msg
+
+    def get_channels_string(self, selected_channels):
+        channels = ""
+        for chnl in selected_channels:
+            channels += f"#{chnl}"
+        return channels
 
     def get_mapping(self):
         return {
