@@ -1,10 +1,19 @@
+import os
+
 import psycopg2
+from pathlib import Path
+from dotenv import load_dotenv
+
+env_path = Path('.') / '.env'
+load_dotenv(dotenv_path=env_path)
 
 
 class Postgres:
     def __init__(self):
         try:
-            self.connection = psycopg2.connect("postgresql://admin:apj0702@localhost:5431/schedulerbot")
+            self.connection = psycopg2.connect(
+                f"postgresql://{os.environ['POSTGRES_USER']}:{os.environ['POSTGRES_PASSWORD']}@{os.environ['POSTGRES_HOST']}:{os.environ['POSTGRES_PORT']}/{os.environ['POSTGRES_DB']}"
+            )
             self.cursor = self.connection.cursor()
         except Exception as e:
             print(f'Failed to establish connection: {e}')

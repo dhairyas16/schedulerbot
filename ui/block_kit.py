@@ -210,7 +210,7 @@ class BlockKit:
                             },
                             {
                                 "type": "mrkdwn",
-                                "text": f"*Next Posting At*\n{scheduler.get_job(str(job[mapping['job_id']])).next_run_time.astimezone(pytz.timezone(user_timezone))}"
+                                "text": f"*Next Posting At*\n{scheduler.get_job(str(job[mapping['job_id']])).next_run_time.astimezone(pytz.timezone(user_timezone)) if scheduler.get_job(str(job[mapping['job_id']])).next_run_time else 'None'}"
                             },
                             # {
                             #     "type": "mrkdwn",

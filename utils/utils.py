@@ -45,6 +45,9 @@ class Util:
         end_date_obj = datetime.strptime(end_date_str, '%Y-%m-%d %H:%M:%S%z')
         next_run_time_obj = scheduler.get_job(str(job_id)).next_run_time
 
+        if next_run_time_obj == None:
+            return 0
+
         if next_run_time_obj == start_date_obj:
             return total_count
 
