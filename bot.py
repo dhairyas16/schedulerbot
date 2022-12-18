@@ -68,6 +68,7 @@ def schedule_recurring_list():
 def handle_submit():
     data = request.form
     form_json = json.loads(data.get('payload'))
+    print('/handle-submit -->', form_json)
     submission_type = form_json.get('type')
     if submission_type == 'view_submission':
         user_id = form_json['user']['id']
@@ -93,6 +94,7 @@ def handle_submit():
 
         client.chat_postEphemeral(
             channel=selected_channels[0],
+            # channel=f'@{user_id}',
             blocks=blocks.msg_scheduled_blocks(message, util.get_channels_string(selected_channels)),
             user=user_id
         )
@@ -109,6 +111,8 @@ def handle_submit():
         )
         return Response(), 200
     if submission_type == 'block_actions':
+        user_id = form_json['user']['id']
+        channel_id = form_json['channel']['id']
         action_id = form_json['actions'][0]['action_id']
         req_type, job_id = action_id.rsplit('_', 1)
         if req_type == 'post_now_request':
@@ -123,9 +127,15 @@ def handle_submit():
                 return Response(), 200
             except Exception as e:
                 print('Error while posting message -->', e)
+                client.chat_postEphemeral(channel=channel_id, text='Message does not exist', user=user_id)
+                return Response(), 500
         if req_type == 'delete_request':
             scheduler.remove_job(job_id)
             db.delete_job(job_id)
+            client.chat_postMessage(
+                channel=f'@{user_id}',
+                text='Your message has been deleted',
+            )
             return Response(), 200
 
 

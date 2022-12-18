@@ -196,7 +196,7 @@ class BlockKit:
                         "type": "section",
                         "text": {
                             "type": "mrkdwn",
-                            "text": f"*Message:*\n{util.get_few_words(job[mapping['message']])}"
+                            "text": f"*Message*\n{util.get_few_words(job[mapping['message']])}"
                         }
                     }
                 )
@@ -206,31 +206,31 @@ class BlockKit:
                         "fields": [
                             {
                                 "type": "mrkdwn",
-                                "text": f"*Start Date:*\n{job[mapping['start_date']]}"
+                                "text": f"*Start Date & Time*\n{job[mapping['start_date']]}"
                             },
                             {
                                 "type": "mrkdwn",
-                                "text": f"*Time:*\n{job[mapping['hour']]}:{job[mapping['minute']]}"
+                                "text": f"*Next Posting At*\n{scheduler.get_job(str(job[mapping['job_id']])).next_run_time.astimezone(pytz.timezone(user_timezone))}"
+                            },
+                            # {
+                            #     "type": "mrkdwn",
+                            #     "text": f"*Time:*\n{job[mapping['hour']]}:{job[mapping['minute']]}"
+                            # },
+                            {
+                                "type": "mrkdwn",
+                                "text": f"*Total no. of times*\n{job[mapping['no_of_times']]}"
                             },
                             {
                                 "type": "mrkdwn",
-                                "text": f"*Total no. of times:*\n{job[mapping['no_of_times']]}"
+                                "text": f"*Remaining no of times*\n{remaining_count}"
                             },
                             {
                                 "type": "mrkdwn",
-                                "text": f"*Frequency:*\n{job[mapping['frequency']]}"
+                                "text": f"*Frequency*\n{job[mapping['frequency']]}"
                             },
                             {
                                 "type": "mrkdwn",
-                                "text": f"*Next Schedule Time:*\n{scheduler.get_job(str(job[mapping['job_id']])).next_run_time.astimezone(pytz.timezone(user_timezone))}"
-                            },
-                            {
-                                "type": "mrkdwn",
-                                "text": f"*Channels:*\n{channels}"
-                            },
-                            {
-                                "type": "mrkdwn",
-                                "text": f"*Remaining no of times:*\n{remaining_count}"
+                                "text": f"*Channels*\n{channels}"
                             }
                         ]
                     }
