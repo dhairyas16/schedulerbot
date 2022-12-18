@@ -20,12 +20,12 @@ class BlockKit:
             "type": "modal",
             "title": {
                 "type": "plain_text",
-                "text": "Schedule Recurring Msg",
+                "text": "Schedule Message",
                 "emoji": True
             },
             "submit": {
                 "type": "plain_text",
-                "text": "Submit",
+                "text": "Schedule",
                 "emoji": True
             },
             "close": {
@@ -162,7 +162,7 @@ class BlockKit:
                     "type": "section",
                     "text": {
                         "type": "mrkdwn",
-                        "text": "Use `/schedule-recurring` to schedule a new recurring message."
+                        "text": "Use `/schedule` to schedule a new message."
                     }
                 },
             ]
@@ -173,7 +173,7 @@ class BlockKit:
                 "type": "header",
                 "text": {
                     "type": "plain_text",
-                    "text": ":calendar: Your scheduled recurring messages",
+                    "text": ":calendar: Your scheduled messages",
                     "emoji": True
                 }
             },
@@ -302,7 +302,7 @@ class BlockKit:
                 "type": "section",
                 "text": {
                     "type": "mrkdwn",
-                    "text": "Use `/schedule-recurring-list` to show your recurring messages."
+                    "text": "Use `/schedule-list` to show your messages."
                 }
             }
         ]

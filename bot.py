@@ -46,8 +46,8 @@ def schedule_help():
     return Response(), 200
 
 
-@app.route('/schedule-recurring', methods=['POST'])
-def schedule_recurring():
+@app.route('/schedule', methods=['POST'])
+def schedule():
     data = request.form
     channel = data.get('channel_name')
     bot_channels = client_helper.get_bot_channels()
@@ -60,8 +60,8 @@ def schedule_recurring():
     return Response(), 200
 
 
-@app.route('/schedule-recurring-list', methods=['POST'])
-def schedule_recurring_list():
+@app.route('/schedule-list', methods=['POST'])
+def schedule_list():
     data = request.form
     channel_id = data.get('channel_id')
     user_id = data.get('user_id')
@@ -97,12 +97,12 @@ def handle_submit():
         selected_channels = []
         for val in selected_options:
             selected_channels.append(val['value'])
-        resp, status = scheduler_helper.schedule_recurring_msg(
+        resp, status = scheduler_helper.schedule_msg(
             message, start_date_time_timestamp_str, frequency, no_of_times, selected_channels, user_timezone
         )
         print('job scheduled -->', resp)
         if status != 200:
-            print('Error scheduling recurring message: ', resp)
+            print('Error scheduling message: ', resp)
             return Response(), 500
 
         client.chat_postEphemeral(

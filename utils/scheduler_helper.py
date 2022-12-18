@@ -12,7 +12,7 @@ class SchedulerHelper:
         job_ids = [job.id for job in jobs]
         return job_ids
 
-    def schedule_recurring_msg(self, message, start_date_time_timestamp_str, frequency, no_of_times, selected_channels,
+    def schedule_msg(self, message, start_date_time_timestamp_str, frequency, no_of_times, selected_channels,
                                user_timezone):
         start_date = util.get_start_date_and_time(start_date_time_timestamp_str, user_timezone)
         hour = start_date.hour
