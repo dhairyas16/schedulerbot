@@ -222,7 +222,7 @@ class BlockKit:
                             },
                             {
                                 "type": "mrkdwn",
-                                "text": f"*Remaining no of times*\n{remaining_count}"
+                                "text": f"*Remaining no. of times*\n{remaining_count}"
                             },
                             {
                                 "type": "mrkdwn",
@@ -304,6 +304,43 @@ class BlockKit:
                     "type": "mrkdwn",
                     "text": "Use `/schedule-recurring-list` to show your recurring messages."
                 }
+            }
+        ]
+
+    def schedule_help_blocks(self):
+        return [
+            {
+                "type": "section",
+                "text": {
+                    "type": "mrkdwn",
+                    "text": "Hey there 👋 I'm SchedulerBot. I'm here to help you schedule and manage messages in Slack. \nQuickly schedule and manage messages using following commands:"
+                }
+            },
+            {
+                "type": "section",
+                "text": {
+                    "type": "mrkdwn",
+                    "text": "*1️⃣ Use the `/schedule` command*. Type `/schedule` in any channel I'll ask for a details about your message. Try it out by using the `/schedule` command in any channel."
+                }
+            },
+            {
+                "type": "section",
+                "text": {
+                    "type": "mrkdwn",
+                    "text": "*2️⃣ Use the `/schedule-list` command.* This will list all your scheduled messages, you can post message right at the moment using `Post Now` button or delete message using `Delete` button."
+                }
+            },
+            {
+                "type": "divider"
+            },
+            {
+                "type": "context",
+                "elements": [
+                    {
+                        "type": "mrkdwn",
+                        "text": "❓Get help at any time with `/schedule-help`"
+                    }
+                ]
             }
         ]
 

@@ -33,6 +33,19 @@ client_helper = ClientHelper(client)
 scheduler_helper = SchedulerHelper(scheduler, client)
 
 
+@app.route('/schedule-help', methods=['POST'])
+def schedule_help():
+    data = request.form
+    channel_id = data.get('channel_id')
+    user_id = data.get('user_id')
+    client.chat_postEphemeral(
+        channel=channel_id,
+        blocks=blocks.schedule_help_blocks(),
+        user=user_id
+    )
+    return Response(), 200
+
+
 @app.route('/schedule-recurring', methods=['POST'])
 def schedule_recurring():
     data = request.form
@@ -134,7 +147,7 @@ def handle_submit():
             db.delete_job(job_id)
             client.chat_postMessage(
                 channel=f'@{user_id}',
-                text='Your message has been deleted',
+                text=':eyes: *Your message has been deleted*',
             )
             return Response(), 200
 
