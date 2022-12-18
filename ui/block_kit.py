@@ -276,7 +276,7 @@ class BlockKit:
                 "type": "section",
                 "text": {
                     "type": "mrkdwn",
-                    "text": "*Your message was scheduled*"
+                    "text": ":white_check_mark: *Your message was scheduled*"
                 }
             },
             {
