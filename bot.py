@@ -7,6 +7,7 @@ from pathlib import Path
 from dotenv import load_dotenv
 from flask import Flask, request, Response
 from apscheduler.schedulers.background import BackgroundScheduler
+
 from pytz import utc
 
 from postgres import db
@@ -66,6 +67,7 @@ def schedule_list():
     channel_id = data.get('channel_id')
     user_id = data.get('user_id')
     scheduled_job_ids = scheduler_helper.get_scheduled_job_ids()
+    print('job ids -->', scheduled_job_ids)
     user_info = client.users_info(user=user_id)
     user_timezone = user_info['user']['tz']
     jobs = db.get_user_jobs(user_id, tuple(scheduled_job_ids))
@@ -81,12 +83,11 @@ def schedule_list():
 def handle_submit():
     data = request.form
     form_json = json.loads(data.get('payload'))
-    print('/handle-submit -->', form_json)
     submission_type = form_json.get('type')
     if submission_type == 'view_submission':
         user_id = form_json['user']['id']
-        user_info = client.users_info(user=user_id)
-        user_timezone = user_info['user']['tz']
+        # user_info = client.users_info(user=user_id)
+        # user_timezone = user_info['user']['tz']
         data = form_json['view']['state']['values']
         list_data = list(data.values())
         message = list_data[0]['plain_text_input-action']['value']
@@ -98,29 +99,15 @@ def handle_submit():
         for val in selected_options:
             selected_channels.append(val['value'])
         resp, status = scheduler_helper.schedule_msg(
-            message, start_date_time_timestamp_str, frequency, no_of_times, selected_channels, user_timezone
+            message, start_date_time_timestamp_str, frequency, no_of_times, selected_channels, user_id
         )
-        print('job scheduled -->', resp)
         if status != 200:
             print('Error scheduling message: ', resp)
             return Response(), 500
-
         client.chat_postEphemeral(
             channel=selected_channels[0],
-            # channel=f'@{user_id}',
             blocks=blocks.msg_scheduled_blocks(message, util.get_channels_string(selected_channels)),
             user=user_id
-        )
-        start_date_obj = util.get_start_date_and_time(
-            start_date_time_timestamp_str, user_timezone
-        ).astimezone(pytz.timezone(user_timezone))
-        # start_date = start_date_obj.date()
-        hour = start_date_obj.hour
-        minute = start_date_obj.minute
-        end_date = util.get_end_date(start_date_time_timestamp_str, frequency, no_of_times, user_timezone)
-        db.insert(
-            (user_id, resp.id, selected_channels, message, str(start_date_obj), hour, minute, frequency, no_of_times,
-             str(end_date))
         )
         return Response(), 200
     if submission_type == 'block_actions':
@@ -135,8 +122,6 @@ def handle_submit():
                 message = record[3]
                 for channel in channels:
                     client.chat_postMessage(channel=channel, text=message)
-                scheduler.remove_job(job_id)
-                db.delete_job(job_id)
                 return Response(), 200
             except Exception as e:
                 print('Error while posting message -->', e)

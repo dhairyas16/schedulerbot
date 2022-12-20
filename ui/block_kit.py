@@ -1,5 +1,5 @@
 import pytz
-
+from datetime import datetime
 from utils.utils import util
 
 
@@ -92,6 +92,30 @@ class BlockKit:
                                     "emoji": True
                                 },
                                 "value": "every-month"
+                            },
+                            {
+                                "text": {
+                                    "type": "plain_text",
+                                    "text": "Every 1.5 months",
+                                    "emoji": True
+                                },
+                                "value": "every-one-half-month"
+                            },
+                            {
+                                "text": {
+                                    "type": "plain_text",
+                                    "text": "Every 2 months",
+                                    "emoji": True
+                                },
+                                "value": "every-two-month"
+                            },
+                            {
+                                "text": {
+                                    "type": "plain_text",
+                                    "text": "Every 3 months",
+                                    "emoji": True
+                                },
+                                "value": "every-three-month"
                             }
                         ],
                         "action_id": "static_select-action"
@@ -206,16 +230,12 @@ class BlockKit:
                         "fields": [
                             {
                                 "type": "mrkdwn",
-                                "text": f"*Start Date & Time*\n{job[mapping['start_date']]}"
+                                "text": f"*Start Date & Time*\n{datetime.strptime(job[mapping['start_date']], '%Y-%m-%d %H:%M:%S%z').astimezone(pytz.timezone(user_timezone))}"
                             },
                             {
                                 "type": "mrkdwn",
                                 "text": f"*Next Posting At*\n{scheduler.get_job(str(job[mapping['job_id']])).next_run_time.astimezone(pytz.timezone(user_timezone)) if scheduler.get_job(str(job[mapping['job_id']])).next_run_time else 'None'}"
                             },
-                            # {
-                            #     "type": "mrkdwn",
-                            #     "text": f"*Time:*\n{job[mapping['hour']]}:{job[mapping['minute']]}"
-                            # },
                             {
                                 "type": "mrkdwn",
                                 "text": f"*Total no. of times*\n{job[mapping['no_of_times']]}"
@@ -226,7 +246,7 @@ class BlockKit:
                             },
                             {
                                 "type": "mrkdwn",
-                                "text": f"*Frequency*\n{job[mapping['frequency']]}"
+                                "text": f"*Frequency*\n{util.get_pretty_frequency(job[mapping['frequency']])}"
                             },
                             {
                                 "type": "mrkdwn",

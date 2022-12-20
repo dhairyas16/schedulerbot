@@ -3,16 +3,12 @@ import pytz
 
 
 class Util:
-    def get_start_date_and_time(self, start_date_time_timestamp_str, user_timezone):
+    def get_start_date_and_time(self, start_date_time_timestamp_str):
         dt_obj = datetime.fromtimestamp(int(start_date_time_timestamp_str), pytz.timezone('utc'))
-        # start_date = dt_obj.date()
-        # hour = dt_obj.time().hour
-        # minute = dt_obj.time().minute
         return dt_obj
 
-    def get_end_date(self, start_date_time_timestamp_str, frequency, no_of_times, user_timezone):
+    def get_end_date(self, start_date_time_timestamp_str, frequency, no_of_times):
         dt_obj = datetime.fromtimestamp(int(start_date_time_timestamp_str), pytz.timezone('utc'))
-        print('dt_obj -->', dt_obj)
         ed_obj = None
         if frequency == 'every-day':
             ed_obj = dt_obj + timedelta(days=int(no_of_times) - 1)
@@ -20,11 +16,13 @@ class Util:
             ed_obj = dt_obj + timedelta(weeks=int(no_of_times) - 1)
         elif frequency == 'every-month':
             ed_obj = dt_obj + timedelta(days=31 * (int(no_of_times) - 1))
+        elif frequency == 'every-one-half-month':
+            ed_obj = dt_obj + timedelta(days=45 * (int(no_of_times) - 1))
+        elif frequency == 'every-two-month':
+            ed_obj = dt_obj + timedelta(days=60 * (int(no_of_times) - 1))
+        elif frequency == 'every-three-month':
+            ed_obj = dt_obj + timedelta(days=90 * (int(no_of_times) - 1))
         return ed_obj
-
-    def get_week_day(self, start_date_time_timestamp_str, user_timezone):
-        dt_obj = datetime.fromtimestamp(int(start_date_time_timestamp_str), pytz.timezone('utc'))
-        return dt_obj.weekday()
 
     def get_few_words(self, s):
         ls_words = s.split()
@@ -58,6 +56,26 @@ class Util:
             return int((delta_days / 7)) + 1
         elif frequency == 'every-month':
             return int((delta_days / 30)) + 1
+        elif frequency == 'every-one-half-month':
+            return int((delta_days / 45)) + 1
+        elif frequency == 'every-two-month':
+            return int((delta_days / 60)) + 1
+        elif frequency == 'every-three-month':
+            return int((delta_days / 90)) + 1
+
+    def get_pretty_frequency(self, frequency):
+        if frequency == 'every-day':
+            return 'Every Day'
+        elif frequency == 'every-week':
+            return 'Every Week'
+        elif frequency == 'every-month':
+            return 'Every Month'
+        elif frequency == 'every-one-half-month':
+            return 'Every 1.5 Months'
+        elif frequency == 'every-two-month':
+            return 'Every 2 Months'
+        elif frequency == 'every-three-month':
+            return 'Every 3 Months'
 
     def get_mapping(self):
         return {
