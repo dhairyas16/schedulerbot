@@ -7,6 +7,7 @@ from pathlib import Path
 from dotenv import load_dotenv
 from flask import Flask, request, Response
 from apscheduler.schedulers.background import BackgroundScheduler
+from apscheduler.jobstores.sqlalchemy import SQLAlchemyJobStore
 
 from pytz import utc
 
@@ -27,7 +28,11 @@ BOT_ID = client.api_call("auth.test")['user_id']
 
 # Scheduler
 scheduler = BackgroundScheduler(timezone=utc)
-scheduler.add_jobstore('sqlalchemy', url='sqlite:///jobstorage.sqlite')
+jobstore = SQLAlchemyJobStore(
+    url=f"postgresql://{os.environ['POSTGRES_USER']}:{os.environ['POSTGRES_PASSWORD']}@{os.environ['POSTGRES_HOST']}:{os.environ['POSTGRES_PORT']}/{os.environ['POSTGRES_DB']}"
+)
+# scheduler.add_jobstore('sqlalchemy', url='sqlite:///jobstorage.sqlite')
+scheduler.add_jobstore(jobstore)
 scheduler.start()
 
 client_helper = ClientHelper(client)
