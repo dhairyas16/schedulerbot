@@ -1,4 +1,5 @@
 import pytz
+import json
 from datetime import datetime
 from utils.utils import util
 
@@ -44,6 +45,19 @@ class BlockKit:
                     "label": {
                         "type": "plain_text",
                         "text": "Message",
+                        "emoji": True
+                    }
+                },
+                {
+                    "type": "input",
+                    "optional": True,
+                    "element": {
+                        "type": "url_text_input",
+                        "action_id": "url_text_input-action",
+                    },
+                    "label": {
+                        "type": "plain_text",
+                        "text": "Image URL",
                         "emoji": True
                     }
                 },
@@ -209,7 +223,7 @@ class BlockKit:
         for job in jobs:
             if job[mapping['user_id']] == user_id:
                 channels = ""
-                for chnl in job[mapping['channels']]:
+                for chnl in json.loads(job[mapping['channels']]):
                     channels += f"#{chnl} "
 
                 remaining_count = util.get_remaining_count(scheduler, job[mapping['job_id']],
