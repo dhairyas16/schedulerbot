@@ -1,16 +1,27 @@
-version: "3"
+version: '3'
 services:
   schedulerbot:
     container_name: schedulerbot
-    build:
-      context: ./
-      dockerfile: Dockerfile
-    ports:
-      - '5001:5000'
+    build: ./api
     volumes:
       - data:/app/data
+    networks:
+      - scheduler-net
+    expose:
+      - "5000"
     env_file:
-      - ./.env
-
+      - ./api/.env
+  nginx:
+    container_name: nginx
+    restart: always
+    build: ./nginx
+    networks:
+      - scheduler-net
+    expose:
+      - "8080"
+    ports:
+      - "5001:8080"
+networks:
+  scheduler-net:
 volumes:
   data:

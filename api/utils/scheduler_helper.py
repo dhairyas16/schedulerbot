@@ -2,7 +2,7 @@ import pytz
 from uuid import uuid4
 from utils.utils import util
 from job_functions import JobFunctions
-from postgres import db
+from db import db
 from datetime import datetime, timedelta
 import json
 

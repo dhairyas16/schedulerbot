@@ -11,7 +11,7 @@ from apscheduler.jobstores.sqlalchemy import SQLAlchemyJobStore
 
 from pytz import utc
 
-from postgres import db
+from db import db
 from utils.utils import util
 from utils.client_helper import ClientHelper
 from utils.scheduler_helper import SchedulerHelper
@@ -159,4 +159,4 @@ if __name__ == '__main__':
     #         misfire_grace_time=10
     #     )
     #     print(resp)
-    app.run(debug=True, port=6000, use_reloader=False)
+    app.run(debug=True, use_reloader=False)

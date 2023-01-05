@@ -7,12 +7,9 @@ env_path = Path('.') / '.env'
 load_dotenv(dotenv_path=env_path)
 
 
-class Postgres:
+class SQLite:
     def __init__(self):
         try:
-            # self.connection = psycopg2.connect(
-            #     f"postgresql://{os.environ['POSTGRES_USER']}:{os.environ['POSTGRES_PASSWORD']}@{os.environ['POSTGRES_HOST']}:{os.environ['POSTGRES_PORT']}/{os.environ['POSTGRES_DB']}"
-            # )
             self.connection = sqlite3.connect("./data/joblist.sqlite", check_same_thread=False)
             self.cursor = self.connection.cursor()
             self.cursor.execute("""
@@ -87,4 +84,4 @@ class Postgres:
             print("Error while fetching user jobs from SQLite:", e)
 
 
-db = Postgres()
+db = SQLite()
