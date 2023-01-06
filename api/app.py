@@ -1,5 +1,4 @@
 import json
-
 import pytz
 import slack
 import os
@@ -73,7 +72,6 @@ def schedule_list():
     channel_id = data.get('channel_id')
     user_id = data.get('user_id')
     scheduled_job_ids = scheduler_helper.get_scheduled_job_ids()
-    print('job ids -->', scheduled_job_ids)
     user_info = client.users_info(user=user_id)
     user_timezone = user_info['user']['tz']
     jobs = db.get_user_jobs(user_id, tuple(scheduled_job_ids))
@@ -108,7 +106,6 @@ def handle_submit():
         resp, status = scheduler_helper.schedule_msg(
             message, start_date_time_timestamp_str, frequency, no_of_times, selected_channels, user_id, img_url
         )
-        print('resp -->', resp)
         if status != 200:
             print('Error scheduling message: ', resp)
             return Response(), 500
@@ -128,11 +125,30 @@ def handle_submit():
                 record = db.get_job(job_id)
                 channels = json.loads(record[2])
                 message = record[3]
+                image_url = record[10]
+                post_now_blocks = [
+                    {
+                        "type": "section",
+                        "text": {
+                            "type": "mrkdwn",
+                            "text": message
+                        }
+                    }
+                ]
+                if len(image_url):
+                    post_now_blocks.append(
+                        {
+                            "type": "image",
+                            "image_url": image_url,
+                            "alt_text": ""
+                        }
+                    )
+
                 for channel in channels:
-                    client.chat_postMessage(channel=channel, text=message)
+                    client.chat_postMessage(channel=channel, blocks=post_now_blocks)
                 return Response(), 200
             except Exception as e:
-                print('Error while posting message -->', e)
+                print('Error while posting message -->', e, flush=True)
                 client.chat_postEphemeral(channel=channel_id, text='Message does not exist', user=user_id)
                 return Response(), 500
         if req_type == 'delete_request':
@@ -145,18 +161,5 @@ def handle_submit():
             return Response(), 200
 
 
-# def test_job():
-#     client.chat_postMessage(channel='test3', text='test msg')
-
-
 if __name__ == '__main__':
-    # db.delete_all_records()
-    # for i in range(0, 100):
-    #     resp = scheduler.add_job(
-    #         func=test_job,
-    #         trigger='interval',
-    #         minutes=1,
-    #         misfire_grace_time=10
-    #     )
-    #     print(resp)
     app.run(debug=True, use_reloader=False)

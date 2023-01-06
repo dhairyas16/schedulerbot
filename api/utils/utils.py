@@ -88,7 +88,7 @@ class Util:
             'minute': 6,
             'frequency': 7,
             'no_of_times': 8,
-            'end_date': 9
+            'end_date': 9,
         }
 
 

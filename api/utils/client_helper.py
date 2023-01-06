@@ -12,4 +12,4 @@ class ClientHelper:
                     bot_channels.append(chnl['name'])
             return bot_channels
         except Exception as e:
-            print(f"Error fetching channels: {e}")
+            print(f"Error fetching channels: {e}", flush=True)

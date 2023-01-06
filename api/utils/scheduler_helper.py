@@ -18,7 +18,8 @@ class SchedulerHelper:
         job_ids = [job.id for job in jobs]
         return job_ids
 
-    def schedule_msg(self, message, start_date_time_timestamp_str, frequency, no_of_times, selected_channels, user_id, img_url):
+    def schedule_msg(self, message, start_date_time_timestamp_str, frequency, no_of_times, selected_channels, user_id,
+                     img_url):
         start_date = util.get_start_date_and_time(start_date_time_timestamp_str)
         hour = start_date.hour
         minute = start_date.minute
@@ -96,10 +97,9 @@ class SchedulerHelper:
             db.insert(
                 (
                     user_id, resp.id, json.dumps(selected_channels), message, str(start_date), hour, minute,
-                    frequency, no_of_times, str(end_date)
+                    frequency, no_of_times, str(end_date), img_url
                 )
             )
-            print(' inserted in db')
             return resp, 200
         except Exception as e:
-            print(f'Error: schedule_msg --> {e}')
+            print(f'Error: schedule_msg --> {e}', flush=True)

@@ -24,11 +24,12 @@ class SQLite:
                     frequency TEXT,
                     no_of_times INTEGER,
                     end_date TEXT,
+                    img_url TEXT,
                     PRIMARY KEY(user_id, job_id)
                 )
             """)
         except Exception as e:
-            print(f'Failed to establish connection: {e}')
+            print(f'Failed to establish connection: {e}', flush=True)
 
     def get_all_records(self):
         try:
@@ -36,22 +37,22 @@ class SQLite:
             records = self.cursor.fetchall()
             return records
         except Exception as e:
-            print("Error while fetching data from SQLite:", e)
+            print("Error while fetching data from SQLite:", e, flush=True)
 
     def insert(self, data):
         try:
-            postgres_insert_query = """ INSERT INTO jobs(user_id, job_id, channels, message, start_date, 
-                hour, minute, frequency, no_of_times, end_date) VALUES (?,?,?,?,?,?,?,?,?,?)"""
-            self.cursor.execute(postgres_insert_query, data)
+            query = """ INSERT INTO jobs(user_id, job_id, channels, message, start_date, 
+                hour, minute, frequency, no_of_times, end_date, img_url) VALUES (?,?,?,?,?,?,?,?,?,?,?)"""
+            self.cursor.execute(query, data)
             self.connection.commit()
         except Exception as e:
-            print("Error while inserting to SQLite:", e)
+            print("Error while inserting to SQLite:", e, flush=True)
 
     def delete_all_records(self):
         try:
             self.cursor.execute('TRUNCATE jobs')
         except Exception as e:
-            print("Error while deleting records to SQLite:", e)
+            print("Error while deleting records to SQLite:", e, flush=True)
 
     def get_job(self, job_id):
         try:
@@ -60,7 +61,7 @@ class SQLite:
             records = self.cursor.fetchall()
             return records[0]
         except Exception as e:
-            print("Error while fetching job from SQLite:", e)
+            print("Error while fetching job from SQLite:", e, flush=True)
 
     def delete_job(self, job_id):
         try:
@@ -68,7 +69,7 @@ class SQLite:
             self.cursor.execute(query, (job_id,))
             self.connection.commit()
         except Exception as e:
-            print("Error while deleting data from SQLite:", e)
+            print("Error while deleting data from SQLite:", e, flush=True)
 
     def get_user_jobs(self, user_id, scheduled_job_ids):
         try:
@@ -81,7 +82,7 @@ class SQLite:
             records = self.cursor.fetchall()
             return records
         except Exception as e:
-            print("Error while fetching user jobs from SQLite:", e)
+            print("Error while fetching user jobs from SQLite:", e, flush=True)
 
 
 db = SQLite()

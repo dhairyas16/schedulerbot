@@ -2,23 +2,14 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="41597e52-cc49-4f8b-a287-23e9135338df" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/api/data/joblist.sqlite" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/api/data/jobstorage.sqlite" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.dockerignore" beforeDir="false" afterPath="$PROJECT_DIR$/api/.dockerignore" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.env.sample" beforeDir="false" afterPath="$PROJECT_DIR$/api/.env.sample" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/api/.gitignore" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Dockerfile" beforeDir="false" afterPath="$PROJECT_DIR$/api/Dockerfile" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app.py" beforeDir="false" afterPath="$PROJECT_DIR$/api/app.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/joblist.sqlite" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/jobstorage.sqlite" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/docker-compose.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/api/docker-compose.yaml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/job_functions.py" beforeDir="false" afterPath="$PROJECT_DIR$/api/job_functions.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/postgres.py" beforeDir="false" afterPath="$PROJECT_DIR$/api/db.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/requirements.txt" beforeDir="false" afterPath="$PROJECT_DIR$/api/requirements.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ui/block_kit.py" beforeDir="false" afterPath="$PROJECT_DIR$/api/ui/block_kit.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/utils/client_helper.py" beforeDir="false" afterPath="$PROJECT_DIR$/api/utils/client_helper.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/utils/scheduler_helper.py" beforeDir="false" afterPath="$PROJECT_DIR$/api/utils/scheduler_helper.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/utils/utils.py" beforeDir="false" afterPath="$PROJECT_DIR$/api/utils/utils.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/api/app.py" beforeDir="false" afterPath="$PROJECT_DIR$/api/app.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/api/data/joblist.sqlite" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/api/data/jobstorage.sqlite" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/api/db.py" beforeDir="false" afterPath="$PROJECT_DIR$/api/db.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/api/utils/client_helper.py" beforeDir="false" afterPath="$PROJECT_DIR$/api/utils/client_helper.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/api/utils/scheduler_helper.py" beforeDir="false" afterPath="$PROJECT_DIR$/api/utils/scheduler_helper.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/api/utils/utils.py" beforeDir="false" afterPath="$PROJECT_DIR$/api/utils/utils.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
