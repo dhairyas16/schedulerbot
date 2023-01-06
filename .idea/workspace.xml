@@ -2,14 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="41597e52-cc49-4f8b-a287-23e9135338df" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/api/app.py" beforeDir="false" afterPath="$PROJECT_DIR$/api/app.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/api/data/joblist.sqlite" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/api/data/jobstorage.sqlite" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/api/db.py" beforeDir="false" afterPath="$PROJECT_DIR$/api/db.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/api/utils/client_helper.py" beforeDir="false" afterPath="$PROJECT_DIR$/api/utils/client_helper.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/api/utils/scheduler_helper.py" beforeDir="false" afterPath="$PROJECT_DIR$/api/utils/scheduler_helper.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/api/utils/utils.py" beforeDir="false" afterPath="$PROJECT_DIR$/api/utils/utils.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/api/docker-compose.yaml" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
