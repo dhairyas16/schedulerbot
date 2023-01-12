@@ -55,7 +55,6 @@ def schedule_help():
 @app.route('/schedule', methods=['POST'])
 def schedule():
     data = request.form
-    print('/schedule data -->', data, flush=True)
     user_id = data.get('user_id')
     user_info = client.users_info(user=user_id)
     user_timezone = user_info['user']['tz']
@@ -98,7 +97,6 @@ def handle_submit():
         user_timezone = user_info['user']['tz']
         data = form_json['view']['state']['values']
         list_data = list(data.values())
-        print('list data -->', list_data, flush=True)
         message = list_data[0]['plain_text_input-action']['value']
         img_url = list_data[1]['url_text_input-action'].get('value', '')
         selected_date = list_data[2]['datepicker-action']['selected_date']
