@@ -5,7 +5,7 @@ from utils.utils import util
 
 
 class BlockKit:
-    def schedule_msg_blocks(self, bot_channels, channel):
+    def schedule_msg_blocks(self, bot_channels, channel, user_timezone):
         options = []
         for chnl in bot_channels:
             options.append({
@@ -61,15 +61,51 @@ class BlockKit:
                         "emoji": True
                     }
                 },
+                # {
+                #     "type": "input",
+                #     "element": {
+                #         "type": "datetimepicker",
+                #         "action_id": "datetimepicker-action"
+                #     },
+                #     "label": {
+                #         "type": "plain_text",
+                #         "text": "Select Starting Date and Time",
+                #         "emoji": True
+                #     }
+                # },
                 {
                     "type": "input",
                     "element": {
-                        "type": "datetimepicker",
-                        "action_id": "datetimepicker-action"
+                        "type": "datepicker",
+                        "initial_date": str(datetime.now().date()),
+                        "placeholder": {
+                            "type": "plain_text",
+                            "text": "Select a date",
+                            "emoji": True
+                        },
+                        "action_id": "datepicker-action"
                     },
                     "label": {
                         "type": "plain_text",
-                        "text": "Select Starting Date and Time",
+                        "text": "Select Date",
+                        "emoji": True
+                    }
+                },
+                {
+                    "type": "input",
+                    "element": {
+                        "type": "timepicker",
+                        "initial_time": str(datetime.now().astimezone(pytz.timezone(user_timezone)).time().strftime('%H:%M')),
+                        "placeholder": {
+                            "type": "plain_text",
+                            "text": "Select time",
+                            "emoji": True
+                        },
+                        "action_id": "timepicker-action"
+                    },
+                    "label": {
+                        "type": "plain_text",
+                        "text": "Select Time",
                         "emoji": True
                     }
                 },

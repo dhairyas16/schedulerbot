@@ -55,11 +55,15 @@ def schedule_help():
 @app.route('/schedule', methods=['POST'])
 def schedule():
     data = request.form
+    print('/schedule data -->', data, flush=True)
+    user_id = data.get('user_id')
+    user_info = client.users_info(user=user_id)
+    user_timezone = user_info['user']['tz']
     channel = data.get('channel_name')
     bot_channels = client_helper.get_bot_channels()
     result = client.views_open(
         trigger_id=data.get("trigger_id"),
-        view=blocks.schedule_msg_blocks(bot_channels, channel),
+        view=blocks.schedule_msg_blocks(bot_channels, channel, user_timezone),
     )
     if not result['ok']:
         return Response(), 500
@@ -90,16 +94,24 @@ def handle_submit():
     submission_type = form_json.get('type')
     if submission_type == 'view_submission':
         user_id = form_json['user']['id']
-        # user_info = client.users_info(user=user_id)
-        # user_timezone = user_info['user']['tz']
+        user_info = client.users_info(user=user_id)
+        user_timezone = user_info['user']['tz']
         data = form_json['view']['state']['values']
         list_data = list(data.values())
+        print('list data -->', list_data, flush=True)
         message = list_data[0]['plain_text_input-action']['value']
         img_url = list_data[1]['url_text_input-action'].get('value', '')
-        start_date_time_timestamp_str = list_data[2]['datetimepicker-action']['selected_date_time']
-        frequency = list_data[3]['static_select-action']['selected_option']['value']
-        no_of_times = list_data[4]['number_input-action']['value']
-        selected_options = list_data[5]['multi_static_select-action']['selected_options']
+        selected_date = list_data[2]['datepicker-action']['selected_date']
+        selected_time = list_data[3]['timepicker-action']['selected_time']
+        dt_str = selected_date + ' ' + selected_time
+        local = pytz.timezone(user_timezone)
+        dt_obj = datetime.strptime(dt_str, '%Y-%m-%d %H:%M')
+        local_dt = local.localize(dt_obj, is_dst=None)
+        start_date_time_timestamp_str = int(local_dt.astimezone(pytz.utc).timestamp())
+        # start_date_time_timestamp_str = list_data[2]['datetimepicker-action']['selected_date_time']
+        frequency = list_data[4]['static_select-action']['selected_option']['value']
+        no_of_times = list_data[5]['number_input-action']['value']
+        selected_options = list_data[6]['multi_static_select-action']['selected_options']
         selected_channels = []
         for val in selected_options:
             selected_channels.append(val['value'])
